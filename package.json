@@ -12,7 +12,9 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
     "db:push": "drizzle-kit push",
-    "db:studio": "drizzle-kit studio"
+    "db:studio": "drizzle-kit studio",
+    "env:local": "cp .env.local.local_settings .env.local && echo 'Switched to local development environment'",
+    "env:remote": "cp .env.local.remote_settings .env.local && echo 'Switched to remote development environment'"
   },
   "dependencies": {
     "@expo/vector-icons": "^14.1.0",
