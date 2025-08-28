@@ -103,8 +103,8 @@ export const transactions = pgTable("transactions", {
   businessId: uuid("business_id")
     .references(() => businesses.id)
     .notNull(),
-  productTypeId: integer("product_type_id")
-    .references(() => productTypes.id)
+  productId: integer("product_id")
+    .references(() => products.id)
     .notNull(),
   transactionTypeId: integer("transaction_type_id")
     .references(() => transactionTypes.id)
