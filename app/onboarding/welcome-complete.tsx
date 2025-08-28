@@ -22,7 +22,7 @@ export default function WelcomeCompleteScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="dark" />
-      
+
       <View style={styles.content}>
         <View style={styles.header}>
           <View style={styles.successIcon}>
@@ -36,8 +36,8 @@ export default function WelcomeCompleteScreen() {
 
         <View style={styles.middle}>
           <Text style={styles.description}>
-            You&apos;re all set! Your loyalty program platform is ready to go. 
-            Start creating rewards, managing customers, and building stronger 
+            You&apos;re all set! Your loyalty program platform is ready to go.
+            Start creating rewards, managing customers, and building stronger
             relationships with your clients.
           </Text>
 
@@ -46,17 +46,17 @@ export default function WelcomeCompleteScreen() {
               <Text style={styles.featureIcon}>🎯</Text>
               <Text style={styles.featureText}>Create custom loyalty programs</Text>
             </View>
-            
+
             <View style={styles.feature}>
               <Text style={styles.featureIcon}>👥</Text>
               <Text style={styles.featureText}>Manage customer relationships</Text>
             </View>
-            
+
             <View style={styles.feature}>
               <Text style={styles.featureIcon}>📊</Text>
               <Text style={styles.featureText}>Track engagement and rewards</Text>
             </View>
-            
+
             <View style={styles.feature}>
               <Text style={styles.featureIcon}>📱</Text>
               <Text style={styles.featureText}>Digital wallet integration</Text>
@@ -65,14 +65,14 @@ export default function WelcomeCompleteScreen() {
         </View>
 
         <View style={styles.bottom}>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.primaryButton}
             onPress={handleGetStarted}
           >
-            <Text style={styles.primaryButtonText}>Get Started</Text>
+            <Text style={styles.primaryButtonText}>Register Account</Text>
           </TouchableOpacity>
-          
-          <TouchableOpacity 
+
+          <TouchableOpacity
             style={styles.secondaryButton}
             onPress={handleViewDashboard}
           >

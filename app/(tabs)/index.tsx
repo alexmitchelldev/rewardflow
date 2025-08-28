@@ -8,16 +8,40 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import { useAuth } from '../../src/contexts/AuthContext';
 
 export default function DashboardScreen() {
+  const { signOut, business } = useAuth();
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="dark" />
       
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
-          <Text style={styles.title}>Dashboard</Text>
-          <Text style={styles.subtitle}>Welcome back to RewardFlow</Text>
+          <View style={styles.headerTop}>
+            <View>
+              <Text style={styles.title}>Dashboard</Text>
+              <Text style={styles.subtitle}>Welcome back to RewardFlow</Text>
+              {business && (
+                <Text style={styles.businessName}>{business.name}</Text>
+              )}
+            </View>
+            <TouchableOpacity 
+              style={styles.logoutButton}
+              onPress={handleSignOut}
+            >
+              <Text style={styles.logoutButtonText}>Logout</Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         <View style={styles.statsGrid}>
@@ -109,6 +133,11 @@ const styles = StyleSheet.create({
     paddingVertical: 24,
     backgroundColor: '#ffffff',
   },
+  headerTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+  },
   title: {
     fontSize: 28,
     fontWeight: 'bold',
@@ -118,6 +147,23 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 16,
     color: '#6B7280',
+  },
+  businessName: {
+    fontSize: 14,
+    color: '#4F46E5',
+    fontWeight: '600',
+    marginTop: 4,
+  },
+  logoutButton: {
+    backgroundColor: '#EF4444',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 8,
+  },
+  logoutButtonText: {
+    color: '#ffffff',
+    fontSize: 14,
+    fontWeight: '600',
   },
   statsGrid: {
     flexDirection: 'row',
