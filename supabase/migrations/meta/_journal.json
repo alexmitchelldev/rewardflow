@@ -15,6 +15,13 @@
       "when": 1756300626855,
       "tag": "0001_white_scourge",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1756393232061,
+      "tag": "0002_giant_marvel_zombies",
+      "breakpoints": true
     }
   ]
 }
