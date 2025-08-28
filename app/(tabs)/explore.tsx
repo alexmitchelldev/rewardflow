@@ -1,110 +1,228 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import React from 'react';
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  ScrollView,
+  TouchableOpacity,
+} from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import { IconSymbol } from '@/components/ui/IconSymbol';
-
-export default function TabTwoScreen() {
+export default function BusinessManagementScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Explore</ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image source={require('@/assets/images/react-logo.png')} style={{ alignSelf: 'center' }} />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Custom fonts">
-        <ThemedText>
-          Open <ThemedText type="defaultSemiBold">app/_layout.tsx</ThemedText> to see how to load{' '}
-          <ThemedText style={{ fontFamily: 'SpaceMono' }}>
-            custom fonts such as this one.
-          </ThemedText>
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/versions/latest/sdk/font">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user&apos;s current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful <ThemedText type="defaultSemiBold">react-native-reanimated</ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
+    <SafeAreaView style={styles.container}>
+      <StatusBar style="dark" />
+      
+      <ScrollView contentContainerStyle={styles.scrollContent}>
+        <View style={styles.header}>
+          <Text style={styles.title}>Business Management</Text>
+          <Text style={styles.subtitle}>Manage your business settings and programs</Text>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Business Information</Text>
+          
+          <TouchableOpacity style={styles.menuItem}>
+            <View style={styles.menuIcon}>
+              <Text style={styles.menuEmoji}>🏢</Text>
+            </View>
+            <View style={styles.menuContent}>
+              <Text style={styles.menuTitle}>Business Profile</Text>
+              <Text style={styles.menuDescription}>Update your business details</Text>
+            </View>
+            <Text style={styles.chevron}>›</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.menuItem}>
+            <View style={styles.menuIcon}>
+              <Text style={styles.menuEmoji}>📍</Text>
+            </View>
+            <View style={styles.menuContent}>
+              <Text style={styles.menuTitle}>Location Settings</Text>
+              <Text style={styles.menuDescription}>Manage your business address</Text>
+            </View>
+            <Text style={styles.chevron}>›</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Loyalty Programs</Text>
+          
+          <TouchableOpacity style={styles.menuItem}>
+            <View style={styles.menuIcon}>
+              <Text style={styles.menuEmoji}>🎯</Text>
+            </View>
+            <View style={styles.menuContent}>
+              <Text style={styles.menuTitle}>Create Program</Text>
+              <Text style={styles.menuDescription}>Set up a new loyalty program</Text>
+            </View>
+            <Text style={styles.chevron}>›</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.menuItem}>
+            <View style={styles.menuIcon}>
+              <Text style={styles.menuEmoji}>⚙️</Text>
+            </View>
+            <View style={styles.menuContent}>
+              <Text style={styles.menuTitle}>Manage Programs</Text>
+              <Text style={styles.menuDescription}>Edit existing programs</Text>
+            </View>
+            <Text style={styles.chevron}>›</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.menuItem}>
+            <View style={styles.menuIcon}>
+              <Text style={styles.menuEmoji}>📋</Text>
+            </View>
+            <View style={styles.menuContent}>
+              <Text style={styles.menuTitle}>Program Templates</Text>
+              <Text style={styles.menuDescription}>Use pre-built templates</Text>
+            </View>
+            <Text style={styles.chevron}>›</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Customer Management</Text>
+          
+          <TouchableOpacity style={styles.menuItem}>
+            <View style={styles.menuIcon}>
+              <Text style={styles.menuEmoji}>👥</Text>
+            </View>
+            <View style={styles.menuContent}>
+              <Text style={styles.menuTitle}>Customer List</Text>
+              <Text style={styles.menuDescription}>View all customers</Text>
+            </View>
+            <Text style={styles.chevron}>›</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.menuItem}>
+            <View style={styles.menuIcon}>
+              <Text style={styles.menuEmoji}>📊</Text>
+            </View>
+            <View style={styles.menuContent}>
+              <Text style={styles.menuTitle}>Customer Insights</Text>
+              <Text style={styles.menuDescription}>Analytics and reports</Text>
+            </View>
+            <Text style={styles.chevron}>›</Text>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Tools & Settings</Text>
+          
+          <TouchableOpacity style={styles.menuItem}>
+            <View style={styles.menuIcon}>
+              <Text style={styles.menuEmoji}>📱</Text>
+            </View>
+            <View style={styles.menuContent}>
+              <Text style={styles.menuTitle}>QR Code Scanner</Text>
+              <Text style={styles.menuDescription}>Scan customer loyalty cards</Text>
+            </View>
+            <Text style={styles.chevron}>›</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.menuItem}>
+            <View style={styles.menuIcon}>
+              <Text style={styles.menuEmoji}>🔗</Text>
+            </View>
+            <View style={styles.menuContent}>
+              <Text style={styles.menuTitle}>Sign-up Links</Text>
+              <Text style={styles.menuDescription}>Generate customer sign-up links</Text>
+            </View>
+            <Text style={styles.chevron}>›</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.menuItem}>
+            <View style={styles.menuIcon}>
+              <Text style={styles.menuEmoji}>👨‍💼</Text>
+            </View>
+            <View style={styles.menuContent}>
+              <Text style={styles.menuTitle}>Staff Management</Text>
+              <Text style={styles.menuDescription}>Manage team access</Text>
+            </View>
+            <Text style={styles.chevron}>›</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
+  container: {
+    flex: 1,
+    backgroundColor: '#F9FAFB',
   },
-  titleContainer: {
+  scrollContent: {
+    paddingBottom: 24,
+  },
+  header: {
+    paddingHorizontal: 24,
+    paddingVertical: 24,
+    backgroundColor: '#ffffff',
+    borderBottomWidth: 1,
+    borderBottomColor: '#E5E7EB',
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#111827',
+    marginBottom: 4,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: '#6B7280',
+  },
+  section: {
+    backgroundColor: '#ffffff',
+    marginTop: 16,
+    paddingVertical: 16,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#111827',
+    paddingHorizontal: 24,
+    marginBottom: 12,
+  },
+  menuItem: {
     flexDirection: 'row',
-    gap: 8,
+    alignItems: 'center',
+    paddingHorizontal: 24,
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F3F4F6',
+  },
+  menuIcon: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#F3F4F6',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 16,
+  },
+  menuEmoji: {
+    fontSize: 18,
+  },
+  menuContent: {
+    flex: 1,
+  },
+  menuTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#111827',
+    marginBottom: 2,
+  },
+  menuDescription: {
+    fontSize: 14,
+    color: '#6B7280',
+  },
+  chevron: {
+    fontSize: 18,
+    color: '#9CA3AF',
+    fontWeight: '300',
   },
 });
