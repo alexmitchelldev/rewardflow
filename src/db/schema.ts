@@ -7,7 +7,6 @@ export const businesses = pgTable("businesses", {
     .primaryKey()
     .references(() => authUsers.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
-  email: text("email").notNull(),
   phone: text("phone"),
   address_line1: text("address_line1"),
   address_line2: text("address_line2"),
