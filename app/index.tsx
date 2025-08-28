@@ -1,18 +1,45 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
 import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { isMockMode } from '../src/db/client';
+import { useAuth } from '../src/contexts/AuthContext';
 
 export default function WelcomeScreen() {
+  const { user, business, initialized, loading } = useAuth();
+
+  // Redirect authenticated users
+  useEffect(() => {
+    if (!initialized || loading) return;
+
+    if (user && business) {
+      router.replace('/(tabs)');
+    } else if (user && !business) {
+      router.replace('/onboarding/business-info');
+    }
+  }, [user, business, initialized, loading]);
+
   const handleGetStarted = () => {
     router.push('/onboarding/business-info' as any);
   };
 
+  const handleLogin = () => {
+    router.push('/login' as any);
+  };
+
+  // Don't render welcome screen if user is authenticated
+  if (!initialized || loading) {
+    return null; // Let the layout handle loading state
+  }
+
+  if (user) {
+    return null; // Will be redirected by useEffect
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="dark" />
-      
+
       <View style={styles.content}>
         <View style={styles.header}>
           <Text style={styles.logo}>RewardFlow</Text>
@@ -22,16 +49,16 @@ export default function WelcomeScreen() {
         <View style={styles.middle}>
           <Text style={styles.title}>Welcome to RewardFlow</Text>
           <Text style={styles.description}>
-            Create and manage customer loyalty programs with ease. 
-            Build stronger relationships with your customers through 
+            Create and manage customer loyalty programs with ease.
+            Build stronger relationships with your customers through
             personalized rewards and seamless experiences.
           </Text>
-          
+
           {isMockMode && (
             <View style={styles.mockModeNotice}>
               <Text style={styles.mockModeTitle}>🚧 Demo Mode</Text>
               <Text style={styles.mockModeText}>
-                Running in demo mode. Your data won&apos;t be saved. 
+                Running in demo mode. Your data won&apos;t be saved.
                 Check SUPABASE_SETUP.md to enable real authentication.
               </Text>
             </View>
@@ -39,14 +66,17 @@ export default function WelcomeScreen() {
         </View>
 
         <View style={styles.bottom}>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={styles.primaryButton}
             onPress={handleGetStarted}
           >
-            <Text style={styles.primaryButtonText}>Get Started</Text>
+            <Text style={styles.primaryButtonText}>Register Account</Text>
           </TouchableOpacity>
-          
-          <TouchableOpacity style={styles.secondaryButton}>
+
+          <TouchableOpacity
+            style={styles.secondaryButton}
+            onPress={handleLogin}
+          >
             <Text style={styles.secondaryButtonText}>I already have an account</Text>
           </TouchableOpacity>
         </View>
