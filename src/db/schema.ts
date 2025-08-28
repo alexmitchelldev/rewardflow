@@ -14,6 +14,7 @@ export const businesses = pgTable("businesses", {
   address_city: text("address_city"),
   address_state: text("address_state"),
   address_zip_code: text("address_zip_code"),
+  address_country: text("address_country"),
   logoUrl: text("logo_url"),
   description: text("description"),
   website: text("website"),
