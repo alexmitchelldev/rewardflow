@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, SafeAreaView } from 'react-native';
 import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
-import { isMockMode } from '../src/db/client';
+
 import { useAuth } from '../src/contexts/AuthContext';
 
 export default function WelcomeScreen() {
@@ -54,15 +54,7 @@ export default function WelcomeScreen() {
             personalized rewards and seamless experiences.
           </Text>
 
-          {isMockMode && (
-            <View style={styles.mockModeNotice}>
-              <Text style={styles.mockModeTitle}>🚧 Demo Mode</Text>
-              <Text style={styles.mockModeText}>
-                Running in demo mode. Your data won&apos;t be saved.
-                Check SUPABASE_SETUP.md to enable real authentication.
-              </Text>
-            </View>
-          )}
+
         </View>
 
         <View style={styles.bottom}>
@@ -153,23 +145,5 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
   },
-  mockModeNotice: {
-    backgroundColor: '#FEF3C7',
-    borderRadius: 12,
-    padding: 16,
-    marginTop: 24,
-    borderLeftWidth: 4,
-    borderLeftColor: '#F59E0B',
-  },
-  mockModeTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#92400E',
-    marginBottom: 8,
-  },
-  mockModeText: {
-    fontSize: 14,
-    color: '#92400E',
-    lineHeight: 20,
-  },
+
 });

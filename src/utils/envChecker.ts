@@ -45,7 +45,8 @@ export function logEnvironmentStatus(): void {
     result.missingVars.forEach((varName) => {
       console.log(`   - ${varName}`);
     });
-    console.log("\nℹ️  Please check SUPABASE_SETUP.md for setup instructions");
+    console.log("\n❌ Application requires Supabase configuration to run");
+    console.log("ℹ️  Please check SUPABASE_SETUP.md for setup instructions");
   }
 
   if (result.warnings.length > 0) {
@@ -60,7 +61,7 @@ export function logEnvironmentStatus(): void {
   console.log(`   Database: ${result.hasDatabase ? "✅" : "❌"}`);
 
   if (!result.isConfigured) {
-    console.log("\n🔗 Running in mock mode - check SUPABASE_SETUP.md to enable real authentication");
+    console.log("\n⚠️  Application will not function without proper Supabase configuration");
   }
 }
 
@@ -81,6 +82,6 @@ To enable Supabase authentication and database operations:
 3. Get these values from your Supabase project dashboard
 4. See SUPABASE_SETUP.md for detailed instructions
 
-Current status: Running in mock mode
+Current status: Configuration required
   `.trim();
 }
