@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   View,
   Text,
@@ -6,10 +6,73 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
+  Alert,
+  ActivityIndicator,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import AddProduct from '../components/products/AddProduct';
+import ManageProducts from '../components/products/ManageProducts';
+import { useProducts } from '../hooks/useProducts';
+import { CreateProductData, UpdateProductData } from '../../src/types';
+
+type ViewState = 'main' | 'addProduct' | 'manageProducts';
 
 export default function BusinessManagementScreen() {
+  const [currentView, setCurrentView] = useState<ViewState>('main');
+  const { products, loading, error, addProduct, updateProduct, deleteProduct } = useProducts();
+
+  const handleAddProduct = async (productData: CreateProductData) => {
+    try {
+      console.log('explore.tsx: handleAddProduct called with:', productData);
+      await addProduct(productData);
+      console.log('explore.tsx: addProduct completed successfully');
+      setCurrentView('main');
+      Alert.alert('Success', 'Product added successfully!');
+    } catch (error) {
+      console.error('explore.tsx: Error in handleAddProduct:', error);
+      Alert.alert('Error', error instanceof Error ? error.message : 'Failed to add product');
+    }
+  };
+
+  const handleUpdateProduct = async (productId: number, productData: UpdateProductData) => {
+    try {
+      await updateProduct(productId, productData);
+      Alert.alert('Success', 'Product updated successfully!');
+    } catch (error) {
+      Alert.alert('Error', error instanceof Error ? error.message : 'Failed to update product');
+    }
+  };
+
+  const handleDeleteProduct = async (productId: number) => {
+    try {
+      await deleteProduct(productId);
+      Alert.alert('Success', 'Product deleted successfully!');
+    } catch (error) {
+      Alert.alert('Error', error instanceof Error ? error.message : 'Failed to delete product');
+    }
+  };
+
+  if (currentView === 'addProduct') {
+    return (
+      <AddProduct
+        onBack={() => setCurrentView('main')}
+        onSave={handleAddProduct}
+      />
+    );
+  }
+
+  if (currentView === 'manageProducts') {
+    return (
+      <ManageProducts
+        onBack={() => setCurrentView('main')}
+        products={products}
+        onUpdateProduct={handleUpdateProduct}
+        onDeleteProduct={handleDeleteProduct}
+        loading={loading}
+        error={error}
+      />
+    );
+  }
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="dark" />
@@ -20,6 +83,53 @@ export default function BusinessManagementScreen() {
           <Text style={styles.subtitle}>Manage your business settings and programs</Text>
         </View>
 
+        {error && (
+          <View style={styles.errorContainer}>
+            <Text style={styles.errorText}>⚠️ {error}</Text>
+          </View>
+        )}
+
+        <View style={styles.section}>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>Products</Text>
+            {loading && <ActivityIndicator size="small" color="#4F46E5" />}
+          </View>
+          
+          <TouchableOpacity 
+            style={[styles.menuItem, loading && styles.menuItemDisabled]}
+            onPress={() => setCurrentView('addProduct')}
+            disabled={loading}
+          >
+            <View style={styles.menuIcon}>
+              <Text style={styles.menuEmoji}>➕</Text>
+            </View>
+            <View style={styles.menuContent}>
+              <Text style={styles.menuTitle}>Add Product</Text>
+              <Text style={styles.menuDescription}>Create a new loyalty product</Text>
+            </View>
+            <Text style={styles.chevron}>›</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity 
+            style={[styles.menuItem, loading && styles.menuItemDisabled]}
+            onPress={() => setCurrentView('manageProducts')}
+            disabled={loading}
+          >
+            <View style={styles.menuIcon}>
+              <Text style={styles.menuEmoji}>🛍️</Text>
+            </View>
+            <View style={styles.menuContent}>
+              <Text style={styles.menuTitle}>Manage Products</Text>
+              <Text style={styles.menuDescription}>
+                {loading ? 'Loading products...' : `Edit existing products (${products.length})`}
+              </Text>
+            </View>
+            <Text style={styles.chevron}>›</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Hidden sections - uncomment to restore */}
+        {/* 
         <View style={styles.section}>
           <Text style={styles.sectionTitle}>Business Information</Text>
           
@@ -145,6 +255,7 @@ export default function BusinessManagementScreen() {
             <Text style={styles.chevron}>›</Text>
           </TouchableOpacity>
         </View>
+        */}
       </ScrollView>
     </SafeAreaView>
   );
@@ -224,5 +335,29 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#9CA3AF',
     fontWeight: '300',
+  },
+  errorContainer: {
+    backgroundColor: '#FEE2E2',
+    marginHorizontal: 24,
+    marginTop: 16,
+    padding: 16,
+    borderRadius: 8,
+    borderLeftWidth: 4,
+    borderLeftColor: '#EF4444',
+  },
+  errorText: {
+    color: '#991B1B',
+    fontSize: 14,
+    fontWeight: '500',
+  },
+  sectionHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 24,
+    marginBottom: 12,
+  },
+  menuItemDisabled: {
+    opacity: 0.5,
   },
 });

@@ -31,6 +31,7 @@ export const products = pgTable("products", {
   productTypeId: integer("product_type_id").references(() => productTypes.id),
   description: text("description"),
   rules: json("rules"), // JSON string with reward rules
+  pointsToRedeem: integer("points_to_redeem").default(10),
   maxPoints: integer("max_points").default(10), // For stamp cards
   pointsPerPurchase: integer("points_per_purchase").default(1),
   rewardValue: decimal("reward_value", { precision: 10, scale: 2 }), // Reward amount

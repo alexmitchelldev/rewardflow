@@ -1,18 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
-
-export interface BusinessData {
-  name: string;
-  email: string;
-  phone?: string;
-  website?: string;
-  description?: string;
-  address_line1?: string;
-  address_line2?: string;
-  address_city?: string;
-  address_state?: string;
-  address_zip_code?: string;
-  address_country?: string;
-}
+import { BusinessData } from '../types';
 
 interface OnboardingContextType {
   businessData: BusinessData;
