@@ -23,7 +23,7 @@ export const businesses = pgTable("businesses", {
 
 // Products/Loyalty Programs table
 export const products = pgTable("products", {
-  id: integer("id").primaryKey(),
+  id: integer("id").primaryKey().generatedAlwaysAsIdentity(),
   businessId: uuid("business_id")
     .references(() => businesses.id)
     .notNull(),
