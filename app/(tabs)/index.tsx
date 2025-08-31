@@ -24,7 +24,7 @@ export default function DashboardScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar style="dark" />
-      
+
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <View style={styles.header}>
           <View style={styles.headerTop}>
@@ -35,7 +35,7 @@ export default function DashboardScreen() {
                 <Text style={styles.businessName}>{business.name}</Text>
               )}
             </View>
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.logoutButton}
               onPress={handleSignOut}
             >
@@ -49,17 +49,17 @@ export default function DashboardScreen() {
             <Text style={styles.statNumber}>0</Text>
             <Text style={styles.statLabel}>Active Programs</Text>
           </View>
-          
+
           <View style={styles.statCard}>
             <Text style={styles.statNumber}>0</Text>
             <Text style={styles.statLabel}>Total Customers</Text>
           </View>
-          
+
           <View style={styles.statCard}>
             <Text style={styles.statNumber}>0</Text>
             <Text style={styles.statLabel}>Rewards Given</Text>
           </View>
-          
+
           <View style={styles.statCard}>
             <Text style={styles.statNumber}>0</Text>
             <Text style={styles.statLabel}>This Month</Text>
@@ -68,8 +68,8 @@ export default function DashboardScreen() {
 
         <View style={styles.quickActions}>
           <Text style={styles.sectionTitle}>Quick Actions</Text>
-          
-          <TouchableOpacity style={styles.actionCard}>
+
+          {/*<TouchableOpacity style={styles.actionCard}>
             <View style={styles.actionIcon}>
               <Text style={styles.actionEmoji}>🎯</Text>
             </View>
@@ -79,26 +79,26 @@ export default function DashboardScreen() {
                 Set up a new rewards program for your customers
               </Text>
             </View>
-          </TouchableOpacity>
-          
+          </TouchableOpacity>*/}
+
           <TouchableOpacity style={styles.actionCard}>
             <View style={styles.actionIcon}>
               <Text style={styles.actionEmoji}>👥</Text>
             </View>
             <View style={styles.actionContent}>
-              <Text style={styles.actionTitle}>Add Customer</Text>
+              <Text style={styles.actionTitle}>Add Customer (Coming Soon...)</Text>
               <Text style={styles.actionDescription}>
                 Register a new customer to your loyalty program
               </Text>
             </View>
           </TouchableOpacity>
-          
+
           <TouchableOpacity style={styles.actionCard}>
             <View style={styles.actionIcon}>
               <Text style={styles.actionEmoji}>📊</Text>
             </View>
             <View style={styles.actionContent}>
-              <Text style={styles.actionTitle}>View Analytics</Text>
+              <Text style={styles.actionTitle}>View Analytics (Coming Soon...)</Text>
               <Text style={styles.actionDescription}>
                 Check your program performance and insights
               </Text>
