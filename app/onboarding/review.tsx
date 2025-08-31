@@ -11,7 +11,7 @@ import {
 import { router, useLocalSearchParams } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { auth, database, getErrorMessage } from '../../src/db/client';
-import { Business } from '@/src/contexts/AuthContext';
+import { Business } from '@/src/types';
 import { useAlert } from '../../src/hooks';
 
 export default function ReviewScreen() {
