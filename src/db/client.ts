@@ -146,9 +146,202 @@ export const dbHelpers = {
 
     return true;
   },
+
+  // Products CRUD operations
+  // Insert a new product
+  insertProduct: async (productData: any) => {
+    if (!supabase) {
+      throw new Error("No database connection available");
+    }
+
+    // Map camelCase to snake_case for database columns
+    const dbProductData = {
+      business_id: productData.businessId,
+      name: productData.name,
+      product_type_id: productData.productTypeId || null,
+      description: productData.description,
+      rules: productData.rules,
+      max_points: productData.maxPoints,
+      points_per_purchase: productData.pointsPerPurchase,
+      reward_value: productData.rewardValue,
+      background_color: productData.backgroundColor,
+      text_color: productData.textColor,
+      is_active: productData.isActive,
+    };
+
+    const { data, error } = await supabase.from("products").insert([dbProductData]).select().single();
+
+    if (error) {
+      throw error;
+    }
+
+    // Map snake_case back to camelCase for return value
+    return {
+      id: data.id,
+      businessId: data.business_id,
+      name: data.name,
+      productTypeId: data.product_type_id,
+      description: data.description,
+      rules: data.rules,
+      maxPoints: data.max_points,
+      pointsPerPurchase: data.points_per_purchase,
+      rewardValue: data.reward_value,
+      backgroundColor: data.background_color,
+      textColor: data.text_color,
+      isActive: data.is_active,
+      createdAt: data.created_at,
+      updatedAt: data.updated_at,
+    };
+  },
+
+  // Get products by business ID
+  getProductsByBusinessId: async (businessId: string) => {
+    if (!supabase) {
+      throw new Error("No database connection available");
+    }
+
+    const { data, error } = await supabase.from("products").select("*").eq("business_id", businessId).order("created_at", { ascending: false });
+
+    if (error) {
+      throw error;
+    }
+
+    // Map snake_case to camelCase
+    return (data || []).map((product: any) => ({
+      id: product.id,
+      businessId: product.business_id,
+      name: product.name,
+      productTypeId: product.product_type_id,
+      description: product.description,
+      rules: product.rules,
+      maxPoints: product.max_points,
+      pointsPerPurchase: product.points_per_purchase,
+      rewardValue: product.reward_value,
+      backgroundColor: product.background_color,
+      textColor: product.text_color,
+      isActive: product.is_active,
+      createdAt: product.created_at,
+      updatedAt: product.updated_at,
+    }));
+  },
+
+  // Update product
+  updateProduct: async (productId: number, updateData: any) => {
+    if (!supabase) {
+      throw new Error("No database connection available");
+    }
+
+    // Map camelCase to snake_case for database columns
+    const dbUpdateData: any = {
+      updated_at: new Date().toISOString(),
+    };
+
+    if (updateData.businessId !== undefined) dbUpdateData.business_id = updateData.businessId;
+    if (updateData.name !== undefined) dbUpdateData.name = updateData.name;
+    if (updateData.productTypeId !== undefined) dbUpdateData.product_type_id = updateData.productTypeId;
+    if (updateData.description !== undefined) dbUpdateData.description = updateData.description;
+    if (updateData.rules !== undefined) dbUpdateData.rules = updateData.rules;
+    if (updateData.maxPoints !== undefined) dbUpdateData.max_points = updateData.maxPoints;
+    if (updateData.pointsPerPurchase !== undefined) dbUpdateData.points_per_purchase = updateData.pointsPerPurchase;
+    if (updateData.rewardValue !== undefined) dbUpdateData.reward_value = updateData.rewardValue;
+    if (updateData.backgroundColor !== undefined) dbUpdateData.background_color = updateData.backgroundColor;
+    if (updateData.textColor !== undefined) dbUpdateData.text_color = updateData.textColor;
+    if (updateData.isActive !== undefined) dbUpdateData.is_active = updateData.isActive;
+
+    const { data, error } = await supabase.from("products").update(dbUpdateData).eq("id", productId).select().single();
+
+    if (error) {
+      throw error;
+    }
+
+    // Map snake_case back to camelCase for return value
+    return {
+      id: data.id,
+      businessId: data.business_id,
+      name: data.name,
+      productTypeId: data.product_type_id,
+      description: data.description,
+      rules: data.rules,
+      maxPoints: data.max_points,
+      pointsPerPurchase: data.points_per_purchase,
+      rewardValue: data.reward_value,
+      backgroundColor: data.background_color,
+      textColor: data.text_color,
+      isActive: data.is_active,
+      createdAt: data.created_at,
+      updatedAt: data.updated_at,
+    };
+  },
+
+  // Delete product
+  deleteProduct: async (productId: number) => {
+    if (!supabase) {
+      throw new Error("No database connection available");
+    }
+
+    const { error } = await supabase.from("products").delete().eq("id", productId);
+
+    if (error) {
+      throw error;
+    }
+
+    return true;
+  },
+
+  // Get single product by ID
+  getProductById: async (productId: number) => {
+    if (!supabase) {
+      throw new Error("No database connection available");
+    }
+
+    const { data, error } = await supabase.from("products").select("*").eq("id", productId).single();
+
+    if (error && error.code !== "PGRST116") {
+      throw error;
+    }
+
+    if (!data) return null;
+
+    // Map snake_case to camelCase
+    return {
+      id: data.id,
+      businessId: data.business_id,
+      name: data.name,
+      productTypeId: data.product_type_id,
+      description: data.description,
+      rules: data.rules,
+      maxPoints: data.max_points,
+      pointsPerPurchase: data.points_per_purchase,
+      rewardValue: data.reward_value,
+      backgroundColor: data.background_color,
+      textColor: data.text_color,
+      isActive: data.is_active,
+      createdAt: data.created_at,
+      updatedAt: data.updated_at,
+    };
+  },
 };
 
 // Mock functions for development when Supabase is not available
+// In-memory storage for mock data
+let mockProducts: any[] = [
+  {
+    id: 1,
+    businessId: "mock-business-id",
+    name: "Coffee Loyalty Card",
+    description: "Buy 10 coffees, get 1 free",
+    rules: '{"type": "stamp", "requirement": "purchase"}',
+    maxPoints: 10,
+    pointsPerPurchase: 1,
+    rewardValue: 5.0,
+    backgroundColor: "#4F46E5",
+    textColor: "#FFFFFF",
+    isActive: true,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  },
+];
+
 const mockHelpers = {
   signUp: async (email: string, password: string) => {
     console.log(`🚧 MOCK MODE: Creating user account for email: ${email}`);
@@ -227,6 +420,70 @@ const mockHelpers = {
     console.log(`🚧 MOCK MODE: Deleting business for user: ${userId}`);
     await new Promise((resolve) => setTimeout(resolve, 300));
     return true;
+  },
+
+  // Mock product operations
+  insertProduct: async (productData: any) => {
+    console.log("🚧 MOCK MODE: Creating product:", productData);
+    console.log(`ℹ️  To save to real database, see SUPABASE_SETUP.md`);
+    await new Promise((resolve) => setTimeout(resolve, 500));
+
+    const newProduct = {
+      ...productData,
+      id: Date.now(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    mockProducts.push(newProduct);
+    return newProduct;
+  },
+
+  getProductsByBusinessId: async (businessId: string) => {
+    console.log(`🚧 MOCK MODE: Getting products for business: ${businessId}`);
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    return mockProducts.filter((product) => product.businessId === businessId);
+  },
+
+  updateProduct: async (productId: number, updateData: any) => {
+    console.log(`🚧 MOCK MODE: Updating product ${productId}:`, updateData);
+    await new Promise((resolve) => setTimeout(resolve, 400));
+
+    const productIndex = mockProducts.findIndex((product) => product.id === productId);
+    if (productIndex === -1) {
+      throw new Error(`Product with id ${productId} not found`);
+    }
+
+    // Update the product in our mock storage
+    const updatedProduct = {
+      ...mockProducts[productIndex],
+      ...updateData,
+      id: productId, // Ensure ID doesn't change
+      updatedAt: new Date().toISOString(),
+    };
+
+    mockProducts[productIndex] = updatedProduct;
+    return updatedProduct;
+  },
+
+  deleteProduct: async (productId: number) => {
+    console.log(`🚧 MOCK MODE: Deleting product: ${productId}`);
+    await new Promise((resolve) => setTimeout(resolve, 300));
+
+    const productIndex = mockProducts.findIndex((product) => product.id === productId);
+    if (productIndex === -1) {
+      throw new Error(`Product with id ${productId} not found`);
+    }
+
+    mockProducts.splice(productIndex, 1);
+    return true;
+  },
+
+  getProductById: async (productId: number) => {
+    console.log(`🚧 MOCK MODE: Getting product: ${productId}`);
+    await new Promise((resolve) => setTimeout(resolve, 300));
+
+    const product = mockProducts.find((product) => product.id === productId);
+    return product || null;
   },
 };
 
