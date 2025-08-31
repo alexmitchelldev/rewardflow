@@ -1,32 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { database, auth } from "../../src/db/client";
-
-interface Product {
-  id: number;
-  businessId: string;
-  name: string;
-  description: string;
-  rules: string;
-  pointsToRedeem: number;
-  maxPoints: number;
-  pointsPerPurchase: number;
-  rewardValue: number;
-  backgroundColor: string;
-  textColor: string;
-  isActive: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface UseProductsReturn {
-  products: Product[];
-  loading: boolean;
-  error: string | null;
-  refreshProducts: () => Promise<void>;
-  addProduct: (productData: Omit<Product, "id" | "businessId" | "createdAt" | "updatedAt">) => Promise<void>;
-  updateProduct: (productId: number, updateData: Partial<Product>) => Promise<void>;
-  deleteProduct: (productId: number) => Promise<void>;
-}
+import { Product, UseProductsReturn, CreateProductData, UpdateProductData } from "../../src/types";
 
 export const useProducts = (): UseProductsReturn => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -43,7 +17,7 @@ export const useProducts = (): UseProductsReturn => {
     }
   };
 
-  const refreshProducts = async () => {
+  const refreshProducts = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -62,9 +36,9 @@ export const useProducts = (): UseProductsReturn => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const addProduct = async (productData: Omit<Product, "id" | "businessId" | "createdAt" | "updatedAt">) => {
+  const addProduct = async (productData: CreateProductData) => {
     try {
       console.log("useProducts: Starting addProduct with data:", productData);
       const businessId = await getCurrentBusinessId();
@@ -93,7 +67,7 @@ export const useProducts = (): UseProductsReturn => {
     }
   };
 
-  const updateProduct = async (productId: number, updateData: Partial<Product>) => {
+  const updateProduct = async (productId: number, updateData: UpdateProductData) => {
     try {
       const updatedProduct = await database.updateProduct(productId, updateData);
       setProducts((prev) =>
@@ -133,7 +107,7 @@ export const useProducts = (): UseProductsReturn => {
 
   useEffect(() => {
     refreshProducts();
-  }, []);
+  }, [refreshProducts]);
 
   return {
     products,

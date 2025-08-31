@@ -11,15 +11,11 @@ import {
   Switch,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-
-interface AddProductProps {
-  onBack: () => void;
-  onSave: (productData: any) => Promise<void>;
-}
+import { AddProductProps, CreateProductData, ProductFormData } from '../../../src/types';
 
 export default function AddProduct({ onBack, onSave }: AddProductProps) {
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ProductFormData>({
     name: '',
     description: '',
     rules: '',
@@ -55,7 +51,7 @@ export default function AddProduct({ onBack, onSave }: AddProductProps) {
     }
 
     // Convert string numbers to integers for numeric fields
-    const productData = {
+    const productData: CreateProductData = {
       name: formData.name,
       description: formData.description,
       rules: formData.rules,
@@ -81,13 +77,7 @@ export default function AddProduct({ onBack, onSave }: AddProductProps) {
     }
   };
 
-  const colorOptions = [
-    { name: 'Blue', value: '#4F46E5' },
-    { name: 'Green', value: '#059669' },
-    { name: 'Purple', value: '#7C3AED' },
-    { name: 'Red', value: '#DC2626' },
-    { name: 'Orange', value: '#EA580C' },
-  ];
+
 
   return (
     <SafeAreaView style={styles.container}>

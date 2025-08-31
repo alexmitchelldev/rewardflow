@@ -13,31 +13,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-
-interface Product {
-  id: number;
-  name: string;
-  description: string;
-  rules: string;
-  pointsToRedeem: number;
-  maxPoints: number;
-  pointsPerPurchase: number;
-  rewardValue: number;
-  backgroundColor: string;
-  textColor: string;
-  isActive: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
-
-interface ManageProductsProps {
-  onBack: () => void;
-  products: Product[];
-  onUpdateProduct: (productId: number, productData: any) => void;
-  onDeleteProduct: (productId: number) => void;
-  loading?: boolean;
-  error?: string | null;
-}
+import { Product, ManageProductsProps } from '../../../src/types';
 
 export default function ManageProducts({ onBack, products, onUpdateProduct, onDeleteProduct, loading = false, error }: ManageProductsProps) {
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
@@ -99,13 +75,7 @@ export default function ManageProducts({ onBack, products, onUpdateProduct, onDe
     }) : null);
   };
 
-  const colorOptions = [
-    { name: 'Blue', value: '#4F46E5' },
-    { name: 'Green', value: '#059669' },
-    { name: 'Purple', value: '#7C3AED' },
-    { name: 'Red', value: '#DC2626' },
-    { name: 'Orange', value: '#EA580C' },
-  ];
+
 
   const renderProductCard = (product: Product) => (
     <View key={product.id} style={styles.productCard}>

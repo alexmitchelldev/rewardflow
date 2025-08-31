@@ -1,27 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { auth, database, getErrorMessage } from '../db/client';
 import type { User } from '@supabase/supabase-js';
-
-// Types
-
-export interface Business {
-  id?: string;
-  name: string;
-  email: string;
-  password: string;
-  phone?: string;
-  website?: string;
-  description?: string;
-  address_line1?: string;
-  address_line2?: string;
-  address_city?: string;
-  address_state?: string;
-  address_zip_code?: string;
-  address_country?: string;
-  logo_url?: string;
-  is_active?: boolean;
-  updated_at?: string;
-}
+import { Business } from '../types';
 
 export interface AuthState {
   user: User | null;

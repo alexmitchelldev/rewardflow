@@ -13,6 +13,7 @@ import { StatusBar } from 'expo-status-bar';
 import AddProduct from '../components/products/AddProduct';
 import ManageProducts from '../components/products/ManageProducts';
 import { useProducts } from '../hooks/useProducts';
+import { CreateProductData, UpdateProductData } from '../../src/types';
 
 type ViewState = 'main' | 'addProduct' | 'manageProducts';
 
@@ -20,7 +21,7 @@ export default function BusinessManagementScreen() {
   const [currentView, setCurrentView] = useState<ViewState>('main');
   const { products, loading, error, addProduct, updateProduct, deleteProduct } = useProducts();
 
-  const handleAddProduct = async (productData: any) => {
+  const handleAddProduct = async (productData: CreateProductData) => {
     try {
       console.log('explore.tsx: handleAddProduct called with:', productData);
       await addProduct(productData);
@@ -33,7 +34,7 @@ export default function BusinessManagementScreen() {
     }
   };
 
-  const handleUpdateProduct = async (productId: number, productData: any) => {
+  const handleUpdateProduct = async (productId: number, productData: UpdateProductData) => {
     try {
       await updateProduct(productId, productData);
       Alert.alert('Success', 'Product updated successfully!');
