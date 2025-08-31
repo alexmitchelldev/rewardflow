@@ -114,6 +114,7 @@ export default function ManageProducts({ onBack, products, onUpdateProduct, onDe
           <Text style={styles.productName}>{product.name}</Text>
           <Text style={styles.productDescription}>{product.description}</Text>
           <View style={styles.productStats}>
+            <Text style={styles.statText}>Points to Redeem: {product.pointsToRedeem}</Text>
             <Text style={styles.statText}>Max Points: {product.maxPoints}</Text>
             <Text style={styles.statText}>Points/Purchase: {product.pointsPerPurchase}</Text>
             {/* <Text style={styles.statText}>Reward: ${product.rewardValue}</Text> */}
@@ -271,9 +272,9 @@ export default function ManageProducts({ onBack, products, onUpdateProduct, onDe
                       <Text style={styles.label}>Points to Redeem</Text>
                       <TextInput
                         style={styles.input}
-                        value={editingProduct.maxPoints.toString()}
-                        onChangeText={(value) => handleInputChange('maxPoints', parseInt(value) || 0)}
-                        placeholder=""
+                        value={editingProduct.pointsToRedeem.toString()}
+                        onChangeText={(value) => handleInputChange('pointsToRedeem', parseInt(value) || 0)}
+                        placeholder="10"
                         placeholderTextColor="#9CA3AF"
                         keyboardType="numeric"
                       />
@@ -290,18 +291,18 @@ export default function ManageProducts({ onBack, products, onUpdateProduct, onDe
                         keyboardType="numeric"
                       />
                     </View>
+                  </View>
 
-                    <View style={[styles.inputGroup, styles.halfWidth]}>
-                      <Text style={styles.label}>Points per Purchase</Text>
-                      <TextInput
-                        style={styles.input}
-                        value={editingProduct.pointsPerPurchase.toString()}
-                        onChangeText={(value) => handleInputChange('pointsPerPurchase', parseInt(value) || 0)}
-                        placeholder="1"
-                        placeholderTextColor="#9CA3AF"
-                        keyboardType="numeric"
-                      />
-                    </View>
+                  <View style={styles.inputGroup}>
+                    <Text style={styles.label}>Points per Purchase</Text>
+                    <TextInput
+                      style={styles.input}
+                      value={editingProduct.pointsPerPurchase.toString()}
+                      onChangeText={(value) => handleInputChange('pointsPerPurchase', parseInt(value) || 0)}
+                      placeholder="1"
+                      placeholderTextColor="#9CA3AF"
+                      keyboardType="numeric"
+                    />
                   </View>
 
                   {/* Reward Value field hidden as requested */}

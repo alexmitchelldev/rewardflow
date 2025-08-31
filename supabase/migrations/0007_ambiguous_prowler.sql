@@ -1,0 +1,1 @@
+ALTER TABLE "products" ADD COLUMN "points_to_redeem" integer DEFAULT 10;

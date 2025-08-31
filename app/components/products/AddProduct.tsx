@@ -23,6 +23,7 @@ export default function AddProduct({ onBack, onSave }: AddProductProps) {
     name: '',
     description: '',
     rules: '',
+    pointsToRedeem: '10',
     maxPoints: '10',
     pointsPerPurchase: '1',
     // rewardValue: '', // Hidden as requested
@@ -58,6 +59,7 @@ export default function AddProduct({ onBack, onSave }: AddProductProps) {
       name: formData.name,
       description: formData.description,
       rules: formData.rules,
+      pointsToRedeem: parseInt(formData.pointsToRedeem) || 10,
       maxPoints: parseInt(formData.maxPoints) || 10,
       pointsPerPurchase: parseInt(formData.pointsPerPurchase) || 1,
       rewardValue: 0, // Default value since field is hidden
@@ -164,6 +166,18 @@ export default function AddProduct({ onBack, onSave }: AddProductProps) {
 
           <View style={styles.row}>
             <View style={[styles.inputGroup, styles.halfWidth]}>
+              <Text style={styles.label}>Points to Redeem</Text>
+              <TextInput
+                style={styles.input}
+                value={formData.pointsToRedeem}
+                onChangeText={(value) => handleInputChange('pointsToRedeem', value)}
+                placeholder="10"
+                placeholderTextColor="#9CA3AF"
+                keyboardType="numeric"
+              />
+            </View>
+
+            <View style={[styles.inputGroup, styles.halfWidth]}>
               <Text style={styles.label}>Max Points</Text>
               <TextInput
                 style={styles.input}
@@ -174,18 +188,18 @@ export default function AddProduct({ onBack, onSave }: AddProductProps) {
                 keyboardType="numeric"
               />
             </View>
+          </View>
 
-            <View style={[styles.inputGroup, styles.halfWidth]}>
-              <Text style={styles.label}>Points per Purchase</Text>
-              <TextInput
-                style={styles.input}
-                value={formData.pointsPerPurchase}
-                onChangeText={(value) => handleInputChange('pointsPerPurchase', value)}
-                placeholder="1"
-                placeholderTextColor="#9CA3AF"
-                keyboardType="numeric"
-              />
-            </View>
+          <View style={styles.inputGroup}>
+            <Text style={styles.label}>Points per Purchase</Text>
+            <TextInput
+              style={styles.input}
+              value={formData.pointsPerPurchase}
+              onChangeText={(value) => handleInputChange('pointsPerPurchase', value)}
+              placeholder="1"
+              placeholderTextColor="#9CA3AF"
+              keyboardType="numeric"
+            />
           </View>
 
           {/* Reward Value field hidden as requested */}

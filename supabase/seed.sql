@@ -100,3 +100,13 @@ insert into businesses (
     true,
     now()
 );
+
+insert into products (
+    business_id,
+    name,
+    description
+) values (
+    (SELECT id FROM businesses LIMIT 1),
+    'Haircut',
+    'Get a free haircut with 10 points.'
+);
