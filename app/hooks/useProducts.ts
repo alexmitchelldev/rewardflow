@@ -7,6 +7,7 @@ interface Product {
   name: string;
   description: string;
   rules: string;
+  pointsToRedeem: number;
   maxPoints: number;
   pointsPerPurchase: number;
   rewardValue: number;
