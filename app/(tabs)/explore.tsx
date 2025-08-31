@@ -6,7 +6,6 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
-  Alert,
   ActivityIndicator,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
@@ -14,12 +13,14 @@ import AddProduct from '../components/products/AddProduct';
 import ManageProducts from '../components/products/ManageProducts';
 import { useProducts } from '../hooks/useProducts';
 import { CreateProductData, UpdateProductData } from '../../src/types';
+import { useAlert } from '../../src/hooks/useAlert';
 
 type ViewState = 'main' | 'addProduct' | 'manageProducts';
 
 export default function BusinessManagementScreen() {
   const [currentView, setCurrentView] = useState<ViewState>('main');
   const { products, loading, error, addProduct, updateProduct, deleteProduct } = useProducts();
+  const { showAlert, AlertComponent } = useAlert();
 
   const handleAddProduct = async (productData: CreateProductData) => {
     try {
@@ -27,28 +28,28 @@ export default function BusinessManagementScreen() {
       await addProduct(productData);
       console.log('explore.tsx: addProduct completed successfully');
       setCurrentView('main');
-      Alert.alert('Success', 'Product added successfully!');
+      showAlert({ title: 'Success', message: 'Product added successfully!' });
     } catch (error) {
       console.error('explore.tsx: Error in handleAddProduct:', error);
-      Alert.alert('Error', error instanceof Error ? error.message : 'Failed to add product');
+      showAlert({ title: 'Error', message: error instanceof Error ? error.message : 'Failed to add product' });
     }
   };
 
   const handleUpdateProduct = async (productId: number, productData: UpdateProductData) => {
     try {
       await updateProduct(productId, productData);
-      Alert.alert('Success', 'Product updated successfully!');
+      showAlert({ title: 'Success', message: 'Product updated successfully!' });
     } catch (error) {
-      Alert.alert('Error', error instanceof Error ? error.message : 'Failed to update product');
+      showAlert({ title: 'Error', message: error instanceof Error ? error.message : 'Failed to update product' });
     }
   };
 
   const handleDeleteProduct = async (productId: number) => {
     try {
       await deleteProduct(productId);
-      Alert.alert('Success', 'Product deleted successfully!');
+      showAlert({ title: 'Success', message: 'Product deleted successfully!' });
     } catch (error) {
-      Alert.alert('Error', error instanceof Error ? error.message : 'Failed to delete product');
+      showAlert({ title: 'Error', message: error instanceof Error ? error.message : 'Failed to delete product' });
     }
   };
 
@@ -257,6 +258,7 @@ export default function BusinessManagementScreen() {
         </View>
         */}
       </ScrollView>
+      <AlertComponent />
     </SafeAreaView>
   );
 }

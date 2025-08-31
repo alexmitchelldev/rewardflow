@@ -7,18 +7,19 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
-  Alert,
   Switch,
   Modal,
   ActivityIndicator,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { Product, ManageProductsProps } from '../../../src/types';
+import { useAlert } from '../../../src/hooks/useAlert';
 
 export default function ManageProducts({ onBack, products, onUpdateProduct, onDeleteProduct, loading = false, error }: ManageProductsProps) {
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [filteredProducts, setFilteredProducts] = useState<Product[]>(products);
+  const { showAlert, AlertComponent } = useAlert();
 
   useEffect(() => {
     const filtered = products.filter(product =>
@@ -36,12 +37,12 @@ export default function ManageProducts({ onBack, products, onUpdateProduct, onDe
     if (!editingProduct) return;
 
     if (!editingProduct.name.trim()) {
-      Alert.alert('Error', 'Product name is required');
+      showAlert({ title: 'Error', message: 'Product name is required' });
       return;
     }
 
     if (!editingProduct.description.trim()) {
-      Alert.alert('Error', 'Product description is required');
+      showAlert({ title: 'Error', message: 'Product description is required' });
       return;
     }
 
@@ -52,10 +53,10 @@ export default function ManageProducts({ onBack, products, onUpdateProduct, onDe
   };
 
   const handleDeleteProduct = (product: Product) => {
-    Alert.alert(
-      'Delete Product',
-      `Are you sure you want to delete "${product.name}"? This action cannot be undone.`,
-      [
+    showAlert({
+      title: 'Delete Product',
+      message: `Are you sure you want to delete "${product.name}"? This action cannot be undone.`,
+      buttons: [
         { text: 'Cancel', style: 'cancel' },
         {
           text: 'Delete',
@@ -63,7 +64,7 @@ export default function ManageProducts({ onBack, products, onUpdateProduct, onDe
           onPress: () => onDeleteProduct(product.id)
         }
       ]
-    );
+    });
   };
 
   const handleInputChange = (field: string, value: string | boolean | number) => {
@@ -368,6 +369,7 @@ export default function ManageProducts({ onBack, products, onUpdateProduct, onDe
           </ScrollView>
         </SafeAreaView>
       </Modal>
+      <AlertComponent />
     </SafeAreaView>
   );
 }

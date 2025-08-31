@@ -9,21 +9,22 @@ import {
   KeyboardAvoidingView, 
   Platform, 
   ScrollView,
-  Alert 
 } from 'react-native';
 import { router } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import { useAuth } from '../src/contexts/AuthContext';
+import { useAlert } from '../src/hooks/useAlert';
 
 export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const { signIn, error, clearError } = useAuth();
+  const { showAlert, AlertComponent } = useAlert();
 
   const handleSignIn = async () => {
     if (!email.trim() || !password.trim()) {
-      Alert.alert('Error', 'Please enter both email and password.');
+      showAlert({ title: 'Error', message: 'Please enter both email and password.' });
       return;
     }
 
@@ -34,7 +35,7 @@ export default function LoginScreen() {
       await signIn(email.trim(), password);
       // Navigation will be handled automatically by the auth state change in _layout.tsx
     } catch (err: any) {
-      Alert.alert('Login Failed', err.message || 'An error occurred during login.');
+      showAlert({ title: 'Login Failed', message: err.message || 'An error occurred during login.' });
     } finally {
       setIsLoading(false);
     }
@@ -45,7 +46,7 @@ export default function LoginScreen() {
   };
 
   const handleForgotPassword = () => {
-    Alert.alert('Forgot Password', 'Password recovery feature will be available soon.');
+    showAlert({ title: 'Forgot Password', message: 'Password recovery feature will be available soon.' });
   };
 
   return (
@@ -136,6 +137,7 @@ export default function LoginScreen() {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
+      <AlertComponent />
     </SafeAreaView>
   );
 }

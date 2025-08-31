@@ -7,14 +7,15 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
-  Alert,
   Switch,
 } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { AddProductProps, CreateProductData, ProductFormData } from '../../../src/types';
+import { useAlert } from '../../../src/hooks/useAlert';
 
 export default function AddProduct({ onBack, onSave }: AddProductProps) {
   const [loading, setLoading] = useState(false);
+  const { showAlert, AlertComponent } = useAlert();
   const [formData, setFormData] = useState<ProductFormData>({
     name: '',
     description: '',
@@ -41,12 +42,12 @@ export default function AddProduct({ onBack, onSave }: AddProductProps) {
 
     // Basic validation
     if (!formData.name.trim()) {
-      Alert.alert('Error', 'Product name is required');
+      showAlert({ title: 'Error', message: 'Product name is required' });
       return;
     }
 
     if (!formData.description.trim()) {
-      Alert.alert('Error', 'Product description is required');
+      showAlert({ title: 'Error', message: 'Product description is required' });
       return;
     }
 
@@ -281,6 +282,7 @@ export default function AddProduct({ onBack, onSave }: AddProductProps) {
 
         <View style={styles.bottomSpacing} />
       </ScrollView>
+      <AlertComponent />
     </SafeAreaView>
   );
 }
