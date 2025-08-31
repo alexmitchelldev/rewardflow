@@ -1,3 +1,5 @@
+-- https://stackoverflow.com/questions/76059457/supabase-local-development-seed-users-table
+
 -- create test users
 INSERT INTO
     auth.users (
